@@ -1,8 +1,4 @@
 const mongoose = require("mongoose");
-const dotenv = require('dotenv').config();
-const { CONNECT_URI } = process.env;
-const uri = CONNECT_URI;
-const db = mongoose.connect(uri, {
-  serverApi: "1"
+const db = mongoose.connect(process.env.CONNECT_URI, {
 });
 module.exports = db;

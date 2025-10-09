@@ -1,3 +1,14 @@
 {
-  "html-to-css-autocompletion.autocompletionFilesScope": "workspace"
+  "html-to-css-autocompletion.autocompletionFilesScope": "workspace",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules/**": true,
+    "**/CVS": true,
+    "**/temp": true,
+    "**/node_modules": false
+  }
 }
