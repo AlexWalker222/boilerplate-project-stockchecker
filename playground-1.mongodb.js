@@ -1,15 +1,19 @@
 //* global use, db */
 // MongoDB Playground
 // Use Ctrl+Space inside a snippet or a string literal to trigger completions.
-require('dotenv').config();
+const env = require('dotenv').config();
 const mongoose = require('mongoose');
 const CONNECT_URI = process.env.CONNECT_URI;
-const database = mongoose.connect(CONNECT_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-const collection = 'NEW_COLLECTION_NAME';
+const db = mongoose.connect(CONNECT_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+const collection = 'stocks';
 
+
+db.then((err, res, req) => {
+  if (err) return console.log("Error connecting to MongoDB:", err);
+  else return console.log("Connected to MongoDB");
+})
 // Create a new database.
-use(database);
-
+mongoose.createConnection(db);
 // Create a new collection.
 db.createCollection(collection);
 
