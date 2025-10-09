@@ -1,12 +1,6 @@
-'use strict';
-const chai = require("chai");
-const assert = chai.assert;
-const chaiHttp = require("chai-http");
-chai.use(chaiHttp);
-const { suite, test, describe, it } = require("mocha");
-
+const mongoose = require("mongoose");
 const { StockModel } = require('../models').Stock;
-const fetch = require("node-fetch");
+const fetch = ('node-fetch')
 async function createStock(stock, like, ip) {
   const newStock = new StockModel({
     symbol: stock,
@@ -90,22 +84,6 @@ module.exports = async function (app) {
       return;
     }
 
-    console.log(
-      suite("Single Stock", stock, like, req.ip, describe("Looking up single stock", () => {
-        it("should return stock data for one stock", (done) => {
-          chai.request().get("/api/stock-prices").query({ stock: "TSM", like: false }).end((err, res) => {
-            if (err) {
-              done(err, null);
-            } else {
-              assert.equal(res.status, 200, "Status 200 OK");
-              assert.equal(res.body.stockData.stock, "TSM", "Stock symbol is TSM");
-              assert.exists(res.body.stockData.price, "TSM has a price");
-              done(DataTransfer, null);
-            }
-          })
-        })
-      })
-      ));
     const { symbol, latestPrice } = await getStock(stock);
     if (!symbol) {
       res.json({ stockData: { likes: like ? 1 : 0 } })
@@ -122,3 +100,4 @@ module.exports = async function (app) {
     })
   });
 };
+getStock("GOOG");
