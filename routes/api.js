@@ -1,6 +1,29 @@
-const mongoose = require("mongoose");
-const { StockModel } = require('../models').Stock;
-const fetch = ('node-fetch')
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
+const mongoose = require('mongoose');
+require("dotenv").config();
+const CONNECT_URI = process.env.CONNECT_URI;
+
+const db = mongoose.connect(CONNECT_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+db.then(() => {
+  return console.log("Database connected")
+}).catch((err) => {
+  return console.log("Database connection error: " + err)
+});
+
+const { Schema } = mongoose;
+const StockModel = new mongoose.Schema();
+const StockSchema = new Schema({
+  symbol: { type: String, required: true },
+  likes: {
+    type: [String], default: []
+  },
+});
+
+const Stock = mongoose.model("Stock", StockSchema);
+require('node-fetch');
+
 async function createStock(stock, like, ip) {
   const newStock = new StockModel({
     symbol: stock,
@@ -9,12 +32,11 @@ async function createStock(stock, like, ip) {
   const savedNew = await newStock.save();
   return savedNew;
 }
-async function findStock(stock) {
-  return await StockModel.findOne({ symbol: stock }).exec();
+const findStock = function (stock) {
+  StockModel.findStock({ symbol: stock }).exec();
 }
-
 async function saveStock(stock, like, ip) {
-  let saved = {};
+  let saved = [];
   const foundStock = await findStock(stock);
   if (!foundStock) {
     const createsaved = await createStock(stock, like, ip);
@@ -100,4 +122,6 @@ module.exports = async function (app) {
     })
   });
 };
-getStock("GOOG");
+module.exports = {
+  db, StockModel, createStock, fetch, findStock, getStock, saveStock, CONNECT_URI, Stock, Schema
+}
